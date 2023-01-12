@@ -1,5 +1,8 @@
-package jp.gr.java_conf.simpleblogapi.presentation.article;
+package jp.gr.java_conf.simpleblogapi.presentation.user;
 
+import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.RegisterUserResponse;
+import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
+import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,9 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
+    RegisterUserResponseFactory registerUserResponseFactory;
+    RegisterUserResponseEntityFactory registerUserResponseEntityFactory;
+
     @PostMapping(path = "/api/user", produces = "application/json")
     public ResponseEntity<?> registerUser() {
-        return new ResponseEntity<Void>(null);
+        RegisterUserResponse response;
+
+        try {
+            response = registerUserResponseFactory.createForSuccess(1L); // TODO: 値は仮置き
+        } catch (RuntimeException exception) {
+            response = registerUserResponseFactory.createForError(exception);
+        }
+        return registerUserResponseEntityFactory.create(response);
     }
 
     @GetMapping(path = "/api/user/{userId}/balance", produces = "application/json")
