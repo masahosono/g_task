@@ -1,5 +1,6 @@
 package jp.gr.java_conf.gtask.application.user;
 
+import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,9 @@ public class RegisterUserService {
 
     private final UserService userService;
 
-    public RegisterUserResultDto registerUser() {
-        long userId = userService.registerUser();
+    public RegisterUserResultDto registerUser(
+            RegisterUserArgsDto registerUserArgsDto) {
+        long userId = userService.registerUser(registerUserArgsDto);
         return RegisterUserResultDto.of(userId);
     }
 }

@@ -1,7 +1,10 @@
 package jp.gr.java_conf.gtask.presentation.user;
 
 import jp.gr.java_conf.gtask.application.user.RegisterUserService;
+import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserResultDto;
+import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.request.dto.factory.RegisterUserArgsDtoFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
@@ -19,15 +22,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final RegisterUserService registerUserService;
+    private final RegisterUserArgsDtoFactory registerUserArgsDtoFactory;
     private final RegisterUserResponseFactory registerUserResponseFactory;
     private final RegisterUserResponseEntityFactory registerUserResponseEntityFactory;
 
     @PostMapping(path = "/api/user", produces = "application/json")
-    public ResponseEntity<RegisterUserResponse> registerUser() {
+    public ResponseEntity<RegisterUserResponse> registerUser(
+            RequestDateTime requestDateTime) {
         RegisterUserResponse response;
 
         try {
-            RegisterUserResultDto registerUserResultDto = registerUserService.registerUser();
+            RegisterUserArgsDto registerUserArgsDto =
+                    registerUserArgsDtoFactory.create(requestDateTime);
+
+            RegisterUserResultDto registerUserResultDto =
+                    registerUserService.registerUser(registerUserArgsDto);
             response = registerUserResponseFactory.createForSuccess(registerUserResultDto.getUserId());
         } catch (RuntimeException exception) {
             response = registerUserResponseFactory.createForError(exception);

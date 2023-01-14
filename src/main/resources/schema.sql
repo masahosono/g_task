@@ -4,18 +4,24 @@ DROP TABLE IF EXISTS user;
 
 CREATE TABLE IF NOT EXISTS user(
     id BIGINT AUTO_INCREMENT,
+    create_date DATETIME,
     PRIMARY KEY(id)
 );
 CREATE TABLE IF NOT EXISTS user_balance(
     id BIGINT AUTO_INCREMENT,
     user_id BIGINT,
     balance BIGINT,
+    update_date DATETIME,
     CONSTRAINT USER_BALANCE_INSTANCE_EXECUTION_FK FOREIGN KEY (user_id) REFERENCES user(id),
     PRIMARY KEY(id)
 );
 CREATE TABLE IF NOT EXISTS user_history(
     id BIGINT AUTO_INCREMENT,
     user_id BIGINT,
+    amount BIGINT,
+    type VARCHAR(3),
+    balance BIGINT,
+    update_date DATETIME,
     CONSTRAINT USER_HISTORY_INSTANCE_EXECUTION_FK FOREIGN KEY (user_id) REFERENCES user(id),
     PRIMARY KEY(id)
 );
