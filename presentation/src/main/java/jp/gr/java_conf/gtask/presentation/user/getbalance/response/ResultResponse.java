@@ -1,4 +1,4 @@
-package jp.gr.java_conf.gtask.presentation.user.getBalance.response;
+package jp.gr.java_conf.gtask.presentation.user.getbalance.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

@@ -13,25 +13,29 @@ public class RegisterUserResponseFactory {
 
     private final HttpStatusCodeConverter httpStatusCodeConverter;
 
-    public RegisterUserResponse createForSuccess(long userId) {
+    public RegisterUserResponse createForSuccess(
+            long userId) {
         return RegisterUserResponse.builder()
                 .result(createResultResponse(userId))
                 .build();
     }
 
-    ResultResponse createResultResponse(long userId) {
+    ResultResponse createResultResponse(
+            long userId) {
         return ResultResponse.builder()
                 .userId(userId)
                 .build();
     }
 
-    public RegisterUserResponse createForError(RuntimeException exception) {
+    public RegisterUserResponse createForError(
+            RuntimeException exception) {
         return RegisterUserResponse.builder()
                 .error(createError(exception))
                 .build();
     }
 
-    ErrorResponse createError(RuntimeException exception) {
+    ErrorResponse createError(
+            RuntimeException exception) {
         return ErrorResponse.builder()
                 .httpStatus(httpStatusCodeConverter.from(exception))
                 .message(exception.getMessage())

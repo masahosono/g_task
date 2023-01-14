@@ -13,7 +13,9 @@ public class RegisterUserService {
 
     public RegisterUserResultDto registerUser(
             RegisterUserArgsDto registerUserArgsDto) {
-        long userId = userService.registerUser(registerUserArgsDto);
+        long userId = userService.registerUser(
+                registerUserArgsDto.getRequestDateTime());
+
         return RegisterUserResultDto.of(userId);
     }
 }

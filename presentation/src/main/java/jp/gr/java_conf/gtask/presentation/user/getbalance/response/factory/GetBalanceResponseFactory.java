@@ -1,9 +1,9 @@
-package jp.gr.java_conf.gtask.presentation.user.getBalance.response.factory;
+package jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory;
 
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceResultDto;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.response.ErrorResponse;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.response.GetBalanceResponse;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.response.ResultResponse;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.response.ErrorResponse;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.response.GetBalanceResponse;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.response.ResultResponse;
 import jp.gr.java_conf.gtask.presentation.user.shared.HttpStatusCodeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

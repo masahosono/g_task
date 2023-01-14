@@ -1,4 +1,4 @@
-package jp.gr.java_conf.gtask.presentation.user.getBalance.response;
+package jp.gr.java_conf.gtask.presentation.user.addbalance.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,8 +1,6 @@
-package jp.gr.java_conf.gtask.presentation.user.getBalance.factory;
+package jp.gr.java_conf.gtask.presentation.user.getbalance.request.factory;
 
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceArgsDto;
-import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
-import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
 import org.springframework.stereotype.Component;
 
 @Component

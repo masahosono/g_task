@@ -1,7 +1,6 @@
 package jp.gr.java_conf.gtask.application.user;
 
-import jp.gr.java_conf.gtask.application.user.dto.GetBalanceArgsDto;
-import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
+import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
 import jp.gr.java_conf.gtask.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,14 +11,26 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public long registerUser(RegisterUserArgsDto registerUserArgsDto) {
+    public long registerUser(
+            RequestDateTime requestDateTime) {
         return userRepository.registerUser(
-                registerUserArgsDto.getRequestDateTime().getValue());
+                requestDateTime.getValue());
     }
 
-    public long getBalance(GetBalanceArgsDto getBalanceArgsDto) {
+    public long getBalance(
+            long userId) {
         return userRepository.getBalance(
-                getBalanceArgsDto.getUserId());
+                userId);
+    }
+
+    public long addBalance(
+            long userId,
+            long balance,
+            RequestDateTime requestDateTime) {
+        return userRepository.addBalance(
+                userId,
+                balance,
+                requestDateTime.getValue());
     }
 
 }

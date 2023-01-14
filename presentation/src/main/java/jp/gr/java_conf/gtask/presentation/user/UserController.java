@@ -1,16 +1,24 @@
 package jp.gr.java_conf.gtask.presentation.user;
 
+import jp.gr.java_conf.gtask.application.user.AddBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetBalanceService;
 import jp.gr.java_conf.gtask.application.user.RegisterUserService;
+import jp.gr.java_conf.gtask.application.user.dto.AddBalanceArgsDto;
+import jp.gr.java_conf.gtask.application.user.dto.AddBalanceResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserResultDto;
 import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.factory.GetBalanceArgsDtoFactory;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.response.GetBalanceResponse;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.response.factory.GetBalanceResponseEntityFactory;
-import jp.gr.java_conf.gtask.presentation.user.getBalance.response.factory.GetBalanceResponseFactory;
+import jp.gr.java_conf.gtask.presentation.user.addbalance.request.AddBalanceRequest;
+import jp.gr.java_conf.gtask.presentation.user.addbalance.request.factory.AddBalanceArgsDtoFactory;
+import jp.gr.java_conf.gtask.presentation.user.addbalance.response.AddBalanceResponse;
+import jp.gr.java_conf.gtask.presentation.user.addbalance.response.factory.AddBalanceResponseEntityFactory;
+import jp.gr.java_conf.gtask.presentation.user.addbalance.response.factory.AddBalanceResponseFactory;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.request.factory.GetBalanceArgsDtoFactory;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.response.GetBalanceResponse;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory.GetBalanceResponseEntityFactory;
+import jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory.GetBalanceResponseFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.request.dto.factory.RegisterUserArgsDtoFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
@@ -21,6 +29,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,6 +50,12 @@ public class UserController {
     private final GetBalanceArgsDtoFactory getBalanceArgsDtoFactory;
     private final GetBalanceResponseFactory getBalanceResponseFactory;
     private final GetBalanceResponseEntityFactory getBalanceResponseEntityFactory;
+
+    // 残高追加API
+    private final AddBalanceService addBalanceService;
+    private final AddBalanceArgsDtoFactory addBalanceArgsDtoFactory;
+    private final AddBalanceResponseFactory addBalanceResponseFactory;
+    private final AddBalanceResponseEntityFactory addBalanceResponseEntityFactory;
 
     @PostMapping(path = "/api/user", produces = "application/json")
     public ResponseEntity<RegisterUserResponse> registerUser(
@@ -79,9 +94,23 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/user/{userId}/balance", produces = "application/json")
-    public ResponseEntity<?> addBalance(
-            @PathVariable("userId") String userId) {
-        return new ResponseEntity<Void>(null);
+    public ResponseEntity<AddBalanceResponse> addBalance(
+            @RequestBody AddBalanceRequest requestBody,
+            @PathVariable("userId") long userId,
+            RequestDateTime requestDateTime) {
+        AddBalanceResponse response;
+
+        try {
+            AddBalanceArgsDto addBalanceArgsDto =
+                    addBalanceArgsDtoFactory.create(userId, requestBody, requestDateTime);
+
+            AddBalanceResultDto addBalanceResultDto =
+                    addBalanceService.addBalance(addBalanceArgsDto);
+            response = addBalanceResponseFactory.createForSuccess(addBalanceResultDto);
+        } catch (RuntimeException exception) {
+            response = addBalanceResponseFactory.createForError(exception);
+        }
+        return addBalanceResponseEntityFactory.create(response);
     }
 
     @PostMapping(path = "/api/user/{userId}/payment", produces = "application/json")

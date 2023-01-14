@@ -15,7 +15,8 @@ public class GetBalanceService {
 
     public GetBalanceResultDto getBalance(
             GetBalanceArgsDto getBalanceArgsDto) {
-        long balance = userService.getBalance(getBalanceArgsDto);
+        long balance = userService.getBalance(
+                getBalanceArgsDto.getUserId());
 
         return GetBalanceResultDto.of(
                 getBalanceArgsDto.getUserId(),
