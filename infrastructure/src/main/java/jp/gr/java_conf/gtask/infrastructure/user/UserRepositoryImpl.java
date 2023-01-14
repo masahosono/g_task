@@ -93,4 +93,42 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Transactional
+    public long payment(
+            long userId,
+            long useBalance,
+            LocalDateTime localDateTime) {
+
+        String getBalanceQuery = "SELECT * FROM user_balance WHERE user_id = ?";
+
+        String updateUserBalanceQuery = "UPDATE user_balance " +
+                "SET balance = ?, update_date = ?" +
+                "WHERE user_id = ?";
+
+        String updateUserHistoryQuery =
+                "INSERT INTO user_history(user_id, amount, type, balance, update_date) VALUES(?, ?, ?, ?, ?)";
+
+        try {
+            UserBalanceEntity userBalanceEntity =
+                    jdbcTemplate.queryForObject(
+                            getBalanceQuery,
+                            new BeanPropertyRowMapper<>(UserBalanceEntity.class), userId);
+
+            long totalBalance = userBalanceEntity.getBalance() - useBalance;
+
+            if (totalBalance < 0) {
+                // TODO: 残高を上回った場合例外スロー
+            }
+
+            jdbcTemplate.update(
+                    updateUserBalanceQuery, totalBalance, localDateTime, userId);
+            jdbcTemplate.update(
+                    updateUserHistoryQuery, userId, useBalance, "out", totalBalance, localDateTime);
+
+            return totalBalance;
+        } catch (RuntimeException exception) {
+            throw exception;
+        }
+    }
+
 }

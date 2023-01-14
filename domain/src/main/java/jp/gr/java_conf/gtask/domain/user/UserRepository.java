@@ -1,7 +1,6 @@
 package jp.gr.java_conf.gtask.domain.user;
 
 import java.time.LocalDateTime;
-import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
 
 public interface UserRepository {
 
@@ -11,5 +10,6 @@ public interface UserRepository {
 
     long addBalance(long userId, long balance, LocalDateTime localDateTime);
 
+    long payment(long userId, long balance, LocalDateTime localDateTime);
 
 }

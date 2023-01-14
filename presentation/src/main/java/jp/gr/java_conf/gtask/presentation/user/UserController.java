@@ -2,11 +2,14 @@ package jp.gr.java_conf.gtask.presentation.user;
 
 import jp.gr.java_conf.gtask.application.user.AddBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetBalanceService;
+import jp.gr.java_conf.gtask.application.user.PaymentService;
 import jp.gr.java_conf.gtask.application.user.RegisterUserService;
 import jp.gr.java_conf.gtask.application.user.dto.AddBalanceArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.AddBalanceResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceResultDto;
+import jp.gr.java_conf.gtask.application.user.dto.PaymentArgsDto;
+import jp.gr.java_conf.gtask.application.user.dto.PaymentResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserResultDto;
 import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
@@ -19,6 +22,11 @@ import jp.gr.java_conf.gtask.presentation.user.getbalance.request.factory.GetBal
 import jp.gr.java_conf.gtask.presentation.user.getbalance.response.GetBalanceResponse;
 import jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory.GetBalanceResponseEntityFactory;
 import jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory.GetBalanceResponseFactory;
+import jp.gr.java_conf.gtask.presentation.user.payment.request.PaymentRequest;
+import jp.gr.java_conf.gtask.presentation.user.payment.request.factory.PaymentArgsDtoFactory;
+import jp.gr.java_conf.gtask.presentation.user.payment.response.PaymentResponse;
+import jp.gr.java_conf.gtask.presentation.user.payment.response.factory.PaymentResponseEntityFactory;
+import jp.gr.java_conf.gtask.presentation.user.payment.response.factory.PaymentResponseFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.request.dto.factory.RegisterUserArgsDtoFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
@@ -56,6 +64,12 @@ public class UserController {
     private final AddBalanceArgsDtoFactory addBalanceArgsDtoFactory;
     private final AddBalanceResponseFactory addBalanceResponseFactory;
     private final AddBalanceResponseEntityFactory addBalanceResponseEntityFactory;
+
+    // 支払いAPI
+    private final PaymentService paymentService;
+    private final PaymentArgsDtoFactory paymentArgsDtoFactory;
+    private final PaymentResponseFactory paymentResponseFactory;
+    private final PaymentResponseEntityFactory paymentResponseEntityFactory;
 
     @PostMapping(path = "/api/user", produces = "application/json")
     public ResponseEntity<RegisterUserResponse> registerUser(
@@ -115,8 +129,22 @@ public class UserController {
 
     @PostMapping(path = "/api/user/{userId}/payment", produces = "application/json")
     public ResponseEntity<?> payment(
-            @PathVariable("userId") String userId) {
-        return new ResponseEntity<Void>(null);
+            @RequestBody PaymentRequest requestBody,
+            @PathVariable("userId") long userId,
+            RequestDateTime requestDateTime) {
+        PaymentResponse response;
+
+        try {
+            PaymentArgsDto paymentArgsDto =
+                    paymentArgsDtoFactory.create(userId, requestBody, requestDateTime);
+
+            PaymentResultDto paymentResultDto =
+                    paymentService.payment(paymentArgsDto);
+            response = paymentResponseFactory.createForSuccess(paymentResultDto);
+        } catch (RuntimeException exception) {
+            response = paymentResponseFactory.createForError(exception);
+        }
+        return paymentResponseEntityFactory.create(response);
     }
 
     @PostMapping(path = "/api/user/{userId}/transfer", produces = "application/json")

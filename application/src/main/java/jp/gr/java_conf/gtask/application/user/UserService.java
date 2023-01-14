@@ -33,4 +33,14 @@ public class UserService {
                 requestDateTime.getValue());
     }
 
+    public long payment(
+            long userId,
+            long balance,
+            RequestDateTime requestDateTime) {
+        return userRepository.payment(
+                userId,
+                balance,
+                requestDateTime.getValue());
+    }
+
 }
