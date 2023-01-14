@@ -1,4 +1,6 @@
 rootProject.name = 'g_task'
 include 'presentation'
 include 'application'
+include 'domain'
+include 'infrastructure'
 
