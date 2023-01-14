@@ -1,4 +1,4 @@
-package jp.gr.java_conf.simpleblogapi;
+package jp.gr.java_conf.gtask;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

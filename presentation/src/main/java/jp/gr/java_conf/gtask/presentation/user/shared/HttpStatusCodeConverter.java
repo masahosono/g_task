@@ -1,4 +1,4 @@
-package presentation.user.shared;
+package jp.gr.java_conf.gtask.presentation.user.shared;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

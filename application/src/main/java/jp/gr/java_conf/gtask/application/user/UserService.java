@@ -1,4 +1,4 @@
-package application.user;
+package jp.gr.java_conf.gtask.application.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

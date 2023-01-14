@@ -1,7 +1,7 @@
-package presentation.user.registeruser.response.factory;
+package jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory;
 
-import presentation.user.registeruser.response.ErrorResponse;
-import presentation.user.registeruser.response.RegisterUserResponse;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.ErrorResponse;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

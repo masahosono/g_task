@@ -1,4 +1,4 @@
-package presentation.user.registeruser.response;
+package jp.gr.java_conf.gtask.presentation.user.registeruser.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

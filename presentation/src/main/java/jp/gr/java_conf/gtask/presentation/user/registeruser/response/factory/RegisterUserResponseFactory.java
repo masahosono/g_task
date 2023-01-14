@@ -1,9 +1,9 @@
-package presentation.user.registeruser.response.factory;
+package jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory;
 
-import presentation.user.registeruser.response.ErrorResponse;
-import presentation.user.registeruser.response.RegisterUserResponse;
-import presentation.user.registeruser.response.ResultResponse;
-import presentation.user.shared.HttpStatusCodeConverter;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.ErrorResponse;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.ResultResponse;
+import jp.gr.java_conf.gtask.presentation.user.shared.HttpStatusCodeConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,10 +1,10 @@
-package presentation.user;
+package jp.gr.java_conf.gtask.presentation.user;
 
-import application.user.RegisterUserService;
-import application.user.dto.RegisterUserResultDto;
-import presentation.user.registeruser.response.RegisterUserResponse;
-import presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
-import presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
+import jp.gr.java_conf.gtask.application.user.RegisterUserService;
+import jp.gr.java_conf.gtask.application.user.dto.RegisterUserResultDto;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
+import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-    RegisterUserService registerUserService;
-    RegisterUserResponseFactory registerUserResponseFactory;
-    RegisterUserResponseEntityFactory registerUserResponseEntityFactory;
+    private final RegisterUserService registerUserService;
+    private final RegisterUserResponseFactory registerUserResponseFactory;
+    private final RegisterUserResponseEntityFactory registerUserResponseEntityFactory;
 
     @PostMapping(path = "/api/user", produces = "application/json")
-    public ResponseEntity<?> registerUser() {
+    public ResponseEntity<RegisterUserResponse> registerUser() {
         RegisterUserResponse response;
 
         try {

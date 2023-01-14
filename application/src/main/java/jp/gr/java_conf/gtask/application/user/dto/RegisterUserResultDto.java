@@ -1,4 +1,4 @@
-package application.user.dto;
+package jp.gr.java_conf.gtask.application.user.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
