@@ -1,4 +1,4 @@
-package jp.gr.java_conf.simpleblogapi.infrastructure.user;
+package jp.gr.java_conf.gtask.infrastructure.user;
 
 import jp.gr.java_conf.gtask.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
