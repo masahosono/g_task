@@ -1,3 +1,5 @@
 dependencies {
     implementation project(':application')
+    implementation project(':domain')
+    implementation project(':infrastructure') // TODO: 依存関係を持ちたくない
 }
