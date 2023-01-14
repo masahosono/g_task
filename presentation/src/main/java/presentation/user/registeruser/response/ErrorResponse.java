@@ -1,4 +1,4 @@
-package jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response;
+package presentation.user.registeruser.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

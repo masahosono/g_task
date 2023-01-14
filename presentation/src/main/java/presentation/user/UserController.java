@@ -1,8 +1,10 @@
-package jp.gr.java_conf.simpleblogapi.presentation.user;
+package presentation.user;
 
-import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.RegisterUserResponse;
-import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
-import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
+import application.user.RegisterUserService;
+import application.user.dto.RegisterUserResultDto;
+import presentation.user.registeruser.response.RegisterUserResponse;
+import presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
+import presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
+    RegisterUserService registerUserService;
     RegisterUserResponseFactory registerUserResponseFactory;
     RegisterUserResponseEntityFactory registerUserResponseEntityFactory;
 
@@ -24,7 +27,8 @@ public class UserController {
         RegisterUserResponse response;
 
         try {
-            response = registerUserResponseFactory.createForSuccess(1L); // TODO: 値は仮置き
+            RegisterUserResultDto registerUserResultDto = registerUserService.registerUser();
+            response = registerUserResponseFactory.createForSuccess(registerUserResultDto.getUserId());
         } catch (RuntimeException exception) {
             response = registerUserResponseFactory.createForError(exception);
         }

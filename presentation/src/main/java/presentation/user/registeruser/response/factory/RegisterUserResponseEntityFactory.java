@@ -1,7 +1,7 @@
-package jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.factory;
+package presentation.user.registeruser.response.factory;
 
-import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.ErrorResponse;
-import jp.gr.java_conf.simpleblogapi.presentation.user.registeruser.response.RegisterUserResponse;
+import presentation.user.registeruser.response.ErrorResponse;
+import presentation.user.registeruser.response.RegisterUserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
