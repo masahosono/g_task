@@ -14,13 +14,12 @@ public class UserRepositoryImpl implements UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public long registerUser() {
-
         String query = "INSERT INTO user() " +
                 "VALUES()";
         try {
             jdbcTemplate.update(
                     query);
-            return 1L;
+            return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
         } catch (RuntimeException exception) {
             throw exception;
         }
