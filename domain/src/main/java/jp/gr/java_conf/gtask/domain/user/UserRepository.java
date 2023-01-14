@@ -6,4 +6,6 @@ public interface UserRepository {
 
     long registerUser(LocalDateTime localDateTime);
 
+    long getBalance(long userId);
+
 }

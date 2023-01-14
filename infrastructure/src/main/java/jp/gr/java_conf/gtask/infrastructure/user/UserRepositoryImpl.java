@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import jp.gr.java_conf.gtask.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,20 @@ public class UserRepositoryImpl implements UserRepository {
                     insertUserHistoryQuery, registerdUserId, 0, "in", 0, localDateTime);
 
             return registerdUserId;
+        } catch (RuntimeException exception) {
+            throw exception;
+        }
+    }
+
+    @Transactional
+    public long getBalance(long userId) {
+        String query = "SELECT * FROM user_balance WHERE user_id = ?";
+
+        try {
+            UserBalanceEntity userBalanceEntity =
+                    jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(UserBalanceEntity.class), userId);
+
+            return userBalanceEntity.getBalance();
         } catch (RuntimeException exception) {
             throw exception;
         }
