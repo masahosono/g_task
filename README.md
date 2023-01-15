@@ -38,3 +38,6 @@ $ export SPRING_DATASOURCE_PASSWORD=[password]
 ```shell
 ./gradlew bootRun
 ```
+
+## API仕様
+https://masahosono.github.io/g_task/
