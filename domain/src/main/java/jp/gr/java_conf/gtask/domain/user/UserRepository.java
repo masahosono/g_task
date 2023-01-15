@@ -14,4 +14,6 @@ public interface UserRepository {
 
     long transfer(long senderUserId, long recipientUserId, long balance, LocalDateTime localDateTime);
 
+    UserHistoryList getHistory(long userId);
+
 }

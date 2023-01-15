@@ -2,6 +2,7 @@ package jp.gr.java_conf.gtask.presentation.user;
 
 import jp.gr.java_conf.gtask.application.user.AddBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetBalanceService;
+import jp.gr.java_conf.gtask.application.user.GetHistoryService;
 import jp.gr.java_conf.gtask.application.user.PaymentService;
 import jp.gr.java_conf.gtask.application.user.RegisterUserService;
 import jp.gr.java_conf.gtask.application.user.TransferService;
@@ -9,6 +10,8 @@ import jp.gr.java_conf.gtask.application.user.dto.AddBalanceArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.AddBalanceResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceResultDto;
+import jp.gr.java_conf.gtask.application.user.dto.GetHistoryArgsDto;
+import jp.gr.java_conf.gtask.application.user.dto.GetHistoryResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.PaymentArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.PaymentResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
@@ -25,6 +28,10 @@ import jp.gr.java_conf.gtask.presentation.user.getbalance.request.factory.GetBal
 import jp.gr.java_conf.gtask.presentation.user.getbalance.response.GetBalanceResponse;
 import jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory.GetBalanceResponseEntityFactory;
 import jp.gr.java_conf.gtask.presentation.user.getbalance.response.factory.GetBalanceResponseFactory;
+import jp.gr.java_conf.gtask.presentation.user.gethistory.request.factory.GetHistoryArgsDtoFactory;
+import jp.gr.java_conf.gtask.presentation.user.gethistory.response.GetHistoryResponse;
+import jp.gr.java_conf.gtask.presentation.user.gethistory.response.factory.GetHistoryResponseEntityFactory;
+import jp.gr.java_conf.gtask.presentation.user.gethistory.response.factory.GetHistoryResponseFactory;
 import jp.gr.java_conf.gtask.presentation.user.payment.request.PaymentRequest;
 import jp.gr.java_conf.gtask.presentation.user.payment.request.factory.PaymentArgsDtoFactory;
 import jp.gr.java_conf.gtask.presentation.user.payment.response.PaymentResponse;
@@ -84,6 +91,12 @@ public class UserController {
     private final TransferArgsDtoFactory transferArgsDtoFactory;
     private final TransferResponseFactory transferResponseFactory;
     private final TransferResponseEntityFactory transferResponseEntityFactory;
+
+    // 履歴API
+    private final GetHistoryService getHistoryService;
+    private final GetHistoryArgsDtoFactory getHistoryArgsDtoFactory;
+    private final GetHistoryResponseFactory getHistoryResponseFactory;
+    private final GetHistoryResponseEntityFactory getHistoryResponseEntityFactory;
 
     @PostMapping(path = "/api/user", produces = "application/json")
     public ResponseEntity<RegisterUserResponse> registerUser(
@@ -182,9 +195,21 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/user/{userId}/history", produces = "application/json")
-    public ResponseEntity<?> gethistory(
-            @PathVariable("userId") String userId) {
-        return new ResponseEntity<Void>(null);
+    public ResponseEntity<GetHistoryResponse> gethistory(
+            @PathVariable("userId") long userId) {
+        GetHistoryResponse response;
+
+        try {
+            GetHistoryArgsDto getHistoryArgsDto =
+                    getHistoryArgsDtoFactory.create(userId);
+
+            GetHistoryResultDto getHistoryResultDto =
+                    getHistoryService.getHistory(getHistoryArgsDto);
+            response = getHistoryResponseFactory.createForSuccess(getHistoryResultDto);
+        } catch (RuntimeException exception) {
+            response = getHistoryResponseFactory.createForError(exception);
+        }
+        return getHistoryResponseEntityFactory.create(response);
     }
 
 }

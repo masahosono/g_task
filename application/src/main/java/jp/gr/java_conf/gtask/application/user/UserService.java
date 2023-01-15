@@ -1,6 +1,7 @@
 package jp.gr.java_conf.gtask.application.user;
 
 import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
+import jp.gr.java_conf.gtask.domain.user.UserHistoryList;
 import jp.gr.java_conf.gtask.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,11 @@ public class UserService {
                 recipientUserId,
                 balance,
                 requestDateTime.getValue());
+    }
+
+    public UserHistoryList getHistory(
+            long userId) {
+        return userRepository.getHistory(userId);
     }
 
 }

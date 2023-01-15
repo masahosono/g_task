@@ -1,6 +1,5 @@
 package jp.gr.java_conf.gtask.presentation.user.transfer.response.factory;
 
-import jp.gr.java_conf.gtask.application.user.dto.PaymentResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.TransferResultDto;
 import jp.gr.java_conf.gtask.presentation.user.shared.HttpStatusCodeConverter;
 import jp.gr.java_conf.gtask.presentation.user.transfer.response.ErrorResponse;

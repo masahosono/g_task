@@ -1,7 +1,9 @@
 package jp.gr.java_conf.gtask.infrastructure.user;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
+import jp.gr.java_conf.gtask.domain.user.UserHistoryList;
 import jp.gr.java_conf.gtask.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRepositoryImpl implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
+
+    private final UserHistoryListFactory userHistoryListFactory;
 
     @Transactional
     public long registerUser(
@@ -186,6 +190,23 @@ public class UserRepositoryImpl implements UserRepository {
                     localDateTime);
 
             return senderTotalBalance;
+        } catch (RuntimeException exception) {
+            throw exception;
+        }
+    }
+
+    @Transactional
+    public UserHistoryList getHistory(
+            long userId) {
+        String getHistoryQuery = "SELECT * FROM user_history WHERE user_id = ?";
+
+        try {
+            List<UserHistoryEntity> userHistoryEntity =
+                    jdbcTemplate.query(
+                            getHistoryQuery,
+                            new BeanPropertyRowMapper<>(UserHistoryEntity.class), userId);
+
+            return userHistoryListFactory.from(userHistoryEntity);
         } catch (RuntimeException exception) {
             throw exception;
         }
