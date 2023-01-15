@@ -1,5 +1,7 @@
 package jp.gr.java_conf.gtask.presentation.user;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jp.gr.java_conf.gtask.application.user.AddBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetHistoryService;
@@ -55,6 +57,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "独自コインAPI")
 @RestController
 @Component
 @RequiredArgsConstructor
@@ -98,6 +101,7 @@ public class UserController {
     private final GetHistoryResponseFactory getHistoryResponseFactory;
     private final GetHistoryResponseEntityFactory getHistoryResponseEntityFactory;
 
+    @Operation(summary = "ユーザ登録API", description = "独自コインを利用するためのユーザ登録をおこなう")
     @PostMapping(path = "/api/user", produces = "application/json")
     public ResponseEntity<RegisterUserResponse> registerUser(
             RequestDateTime requestDateTime) {
@@ -116,6 +120,7 @@ public class UserController {
         return registerUserResponseEntityFactory.create(response);
     }
 
+    @Operation(summary = "残高取得API", description = "ユーザーの残高を返却します")
     @GetMapping(path = "/api/user/{userId}/balance", produces = "application/json")
     public ResponseEntity<GetBalanceResponse> getBalance(
             @PathVariable("userId") long userId) {
@@ -134,6 +139,7 @@ public class UserController {
         return getBalanceResponseEntityFactory.create(response);
     }
 
+    @Operation(summary = "入金API", description = "独自コインに入金をおこなう")
     @PostMapping(path = "/api/user/{userId}/balance", produces = "application/json")
     public ResponseEntity<AddBalanceResponse> addBalance(
             @RequestBody AddBalanceRequest requestBody,
@@ -154,6 +160,7 @@ public class UserController {
         return addBalanceResponseEntityFactory.create(response);
     }
 
+    @Operation(summary = "支払いAPI", description = "独自コインを使用して支払いをおこなう")
     @PostMapping(path = "/api/user/{userId}/payment", produces = "application/json")
     public ResponseEntity<?> payment(
             @RequestBody PaymentRequest requestBody,
@@ -174,6 +181,7 @@ public class UserController {
         return paymentResponseEntityFactory.create(response);
     }
 
+    @Operation(summary = "送金API", description = "他のユーザへ独自コインの送金をおこなう")
     @PostMapping(path = "/api/user/{userId}/transfer", produces = "application/json")
     public ResponseEntity<TransferResponse> transfer(
             @RequestBody TransferRequest requestBody,
@@ -194,6 +202,7 @@ public class UserController {
         return transferResponseEntityFactory.create(response);
     }
 
+    @Operation(summary = "履歴API", description = "出入金の履歴を取得する")
     @PostMapping(path = "/api/user/{userId}/history", produces = "application/json")
     public ResponseEntity<GetHistoryResponse> gethistory(
             @PathVariable("userId") long userId) {
