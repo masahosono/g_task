@@ -43,4 +43,16 @@ public class UserService {
                 requestDateTime.getValue());
     }
 
+    public long transfer(
+            long senderUserId,
+            long recipientUserId,
+            long balance,
+            RequestDateTime requestDateTime) {
+        return userRepository.transfer(
+                senderUserId,
+                recipientUserId,
+                balance,
+                requestDateTime.getValue());
+    }
+
 }

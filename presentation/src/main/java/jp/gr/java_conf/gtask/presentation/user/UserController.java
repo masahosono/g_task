@@ -4,6 +4,7 @@ import jp.gr.java_conf.gtask.application.user.AddBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetBalanceService;
 import jp.gr.java_conf.gtask.application.user.PaymentService;
 import jp.gr.java_conf.gtask.application.user.RegisterUserService;
+import jp.gr.java_conf.gtask.application.user.TransferService;
 import jp.gr.java_conf.gtask.application.user.dto.AddBalanceArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.AddBalanceResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.GetBalanceArgsDto;
@@ -12,6 +13,8 @@ import jp.gr.java_conf.gtask.application.user.dto.PaymentArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.PaymentResultDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserArgsDto;
 import jp.gr.java_conf.gtask.application.user.dto.RegisterUserResultDto;
+import jp.gr.java_conf.gtask.application.user.dto.TransferArgsDto;
+import jp.gr.java_conf.gtask.application.user.dto.TransferResultDto;
 import jp.gr.java_conf.gtask.domain.datetime.RequestDateTime;
 import jp.gr.java_conf.gtask.presentation.user.addbalance.request.AddBalanceRequest;
 import jp.gr.java_conf.gtask.presentation.user.addbalance.request.factory.AddBalanceArgsDtoFactory;
@@ -31,6 +34,11 @@ import jp.gr.java_conf.gtask.presentation.user.registeruser.request.dto.factory.
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseEntityFactory;
 import jp.gr.java_conf.gtask.presentation.user.registeruser.response.factory.RegisterUserResponseFactory;
+import jp.gr.java_conf.gtask.presentation.user.transfer.request.TransferRequest;
+import jp.gr.java_conf.gtask.presentation.user.transfer.request.factory.TransferArgsDtoFactory;
+import jp.gr.java_conf.gtask.presentation.user.transfer.response.TransferResponse;
+import jp.gr.java_conf.gtask.presentation.user.transfer.response.factory.TransferResponseEntityFactory;
+import jp.gr.java_conf.gtask.presentation.user.transfer.response.factory.TransferResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -70,6 +78,12 @@ public class UserController {
     private final PaymentArgsDtoFactory paymentArgsDtoFactory;
     private final PaymentResponseFactory paymentResponseFactory;
     private final PaymentResponseEntityFactory paymentResponseEntityFactory;
+
+    // 送金API
+    private final TransferService transferService;
+    private final TransferArgsDtoFactory transferArgsDtoFactory;
+    private final TransferResponseFactory transferResponseFactory;
+    private final TransferResponseEntityFactory transferResponseEntityFactory;
 
     @PostMapping(path = "/api/user", produces = "application/json")
     public ResponseEntity<RegisterUserResponse> registerUser(
@@ -148,9 +162,23 @@ public class UserController {
     }
 
     @PostMapping(path = "/api/user/{userId}/transfer", produces = "application/json")
-    public ResponseEntity<?> transfer(
-            @PathVariable("userId") String userId) {
-        return new ResponseEntity<Void>(null);
+    public ResponseEntity<TransferResponse> transfer(
+            @RequestBody TransferRequest requestBody,
+            @PathVariable("userId") long userId,
+            RequestDateTime requestDateTime) {
+        TransferResponse response;
+
+        try {
+            TransferArgsDto transferArgsDto =
+                    transferArgsDtoFactory.create(userId, requestBody, requestDateTime);
+
+            TransferResultDto transferResultDto =
+                    transferService.transfer(transferArgsDto);
+            response = transferResponseFactory.createForSuccess(transferResultDto);
+        } catch (RuntimeException exception) {
+            response = transferResponseFactory.createForError(exception);
+        }
+        return transferResponseEntityFactory.create(response);
     }
 
     @PostMapping(path = "/api/user/{userId}/history", produces = "application/json")

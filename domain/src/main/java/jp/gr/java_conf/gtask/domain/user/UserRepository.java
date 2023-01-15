@@ -12,4 +12,6 @@ public interface UserRepository {
 
     long payment(long userId, long balance, LocalDateTime localDateTime);
 
+    long transfer(long senderUserId, long recipientUserId, long balance, LocalDateTime localDateTime);
+
 }

@@ -131,4 +131,64 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Transactional
+    public long transfer(
+            long senderUserId,
+            long recipientUserId,
+            long useBalance,
+            LocalDateTime localDateTime) {
+
+        String getBalanceQuery = "SELECT * FROM user_balance WHERE user_id = ?";
+
+        String updateUserBalanceQuery = "UPDATE user_balance " +
+                "SET balance = ?, update_date = ?" +
+                "WHERE user_id = ?";
+
+        String updateUserHistoryQuery =
+                "INSERT INTO user_history(user_id, amount, type, balance, update_date) VALUES(?, ?, ?, ?, ?)";
+
+        try {
+            UserBalanceEntity senderUserBalanceEntity =
+                    jdbcTemplate.queryForObject(
+                            getBalanceQuery,
+                            new BeanPropertyRowMapper<>(UserBalanceEntity.class), senderUserId);
+            UserBalanceEntity recipientUserBalanceEntity =
+                    jdbcTemplate.queryForObject(
+                            getBalanceQuery,
+                            new BeanPropertyRowMapper<>(UserBalanceEntity.class), recipientUserId);
+
+            long senderTotalBalance = senderUserBalanceEntity.getBalance() - useBalance;
+
+            long recipientTotalBalance = recipientUserBalanceEntity.getBalance() + useBalance;
+
+            if (senderTotalBalance < 0) {
+                // TODO: 残高を上回った場合例外スロー
+            }
+
+            // 送金者
+            jdbcTemplate.update(
+                    updateUserBalanceQuery, senderTotalBalance, localDateTime, senderUserId);
+            jdbcTemplate.update(
+                    updateUserHistoryQuery,
+                    senderUserId,
+                    useBalance, "out",
+                    senderTotalBalance,
+                    localDateTime);
+
+            // 受取
+            jdbcTemplate.update(
+                    updateUserBalanceQuery, recipientTotalBalance, localDateTime, recipientUserId);
+            jdbcTemplate.update(
+                    updateUserHistoryQuery,
+                    recipientUserId,
+                    useBalance, "in",
+                    recipientTotalBalance,
+                    localDateTime);
+
+            return senderTotalBalance;
+        } catch (RuntimeException exception) {
+            throw exception;
+        }
+    }
+
 }
