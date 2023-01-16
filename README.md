@@ -2,6 +2,17 @@
 
 独自コインの管理API（デモ）
 
+## API仕様
+https://masahosono.github.io/g_task/#tag/API
+
+## 提供API
+- ユーザ登録API
+- 残高取得API
+- 入金API
+- 支払いAPI
+- 送金API
+- 履歴API
+
 ## 動作環境
 - macOS Ventura 13.0.1
 - java17
@@ -38,6 +49,3 @@ $ export SPRING_DATASOURCE_PASSWORD=[password]
 ```shell
 ./gradlew bootRun
 ```
-
-## API仕様
-https://masahosono.github.io/g_task/#tag/API
