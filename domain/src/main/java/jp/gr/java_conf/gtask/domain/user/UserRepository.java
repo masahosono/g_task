@@ -2,6 +2,7 @@ package jp.gr.java_conf.gtask.domain.user;
 
 import java.time.LocalDateTime;
 
+// NOTE: application層とinfrastructure層を疎結合とするため、中間レイヤとしてdomain層のインタフェースを定義
 public interface UserRepository {
 
     long registerUser(LocalDateTime localDateTime);

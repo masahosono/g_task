@@ -59,6 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             return userBalanceEntity.getBalance();
         } catch (RuntimeException exception) {
+            // TODO: 参照結果が0件の場合の例外をハンドリング
             throw exception;
         }
     }

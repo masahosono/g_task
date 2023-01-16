@@ -34,6 +34,7 @@ public class GetBalanceResponseFactory {
     }
 
     ErrorResponse createError(RuntimeException exception) {
+        // TODO: 対象リソースが未存在だった場合の例外に対し、HTTPステータス404を設定する。また、メッセージを整形する。
         return ErrorResponse.builder()
                 .httpStatus(httpStatusCodeConverter.from(exception))
                 .message(exception.getMessage())

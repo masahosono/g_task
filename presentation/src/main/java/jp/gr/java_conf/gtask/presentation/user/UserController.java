@@ -116,7 +116,7 @@ public class UserController {
             RegisterUserResultDto registerUserResultDto =
                     registerUserService.registerUser(registerUserArgsDto);
             response = registerUserResponseFactory.createForSuccess(registerUserResultDto.getUserId());
-        } catch (RuntimeException exception) {
+        } catch (RuntimeException exception) { // NOTE: application層以降のレイヤでスローされた例外をハンドリングする
             response = registerUserResponseFactory.createForError(exception);
         }
         return registerUserResponseEntityFactory.create(response);

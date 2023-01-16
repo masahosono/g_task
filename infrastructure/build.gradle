@@ -1,4 +1,5 @@
 dependencies {
+    // NOTE: infrastructure層の依存関係はdomain層にのみ限定する
     implementation project(':domain')
 
     implementation('org.springframework.boot:spring-boot-starter-data-jdbc:2.6.14')
