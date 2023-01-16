@@ -2,6 +2,7 @@ package jp.gr.java_conf.gtask.presentation.user;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jp.gr.java_conf.gtask.application.user.AddBalanceService;
 import jp.gr.java_conf.gtask.application.user.GetBalanceService;
@@ -124,7 +125,7 @@ public class UserController {
     @Operation(summary = "残高取得API", description = "ユーザーの残高を返却します")
     @GetMapping(path = "/api/user/{userId}/balance", produces = "application/json")
     public ResponseEntity<GetBalanceResponse> getBalance(
-            @PathVariable("userId") long userId) {
+            @Schema(description = "ユーザID") @PathVariable("userId") long userId) {
         GetBalanceResponse response;
 
         try {
@@ -144,7 +145,7 @@ public class UserController {
     @PostMapping(path = "/api/user/{userId}/balance", produces = "application/json")
     public ResponseEntity<AddBalanceResponse> addBalance(
             @RequestBody AddBalanceRequest requestBody,
-            @PathVariable("userId") long userId,
+            @Schema(description = "ユーザID") @PathVariable("userId") long userId,
             @Parameter(hidden = true) RequestDateTime requestDateTime) {
         AddBalanceResponse response;
 
@@ -165,7 +166,7 @@ public class UserController {
     @PostMapping(path = "/api/user/{userId}/payment", produces = "application/json")
     public ResponseEntity<?> payment(
             @RequestBody PaymentRequest requestBody,
-            @PathVariable("userId") long userId,
+            @Schema(description = "ユーザID") @PathVariable("userId") long userId,
             @Parameter(hidden = true) RequestDateTime requestDateTime) {
         PaymentResponse response;
 
@@ -186,7 +187,7 @@ public class UserController {
     @PostMapping(path = "/api/user/{userId}/transfer", produces = "application/json")
     public ResponseEntity<TransferResponse> transfer(
             @RequestBody TransferRequest requestBody,
-            @PathVariable("userId") long userId,
+            @Schema(description = "ユーザID") @PathVariable("userId") long userId,
             @Parameter(hidden = true) RequestDateTime requestDateTime) {
         TransferResponse response;
 
@@ -206,7 +207,7 @@ public class UserController {
     @Operation(summary = "履歴API", description = "出入金の履歴を取得する")
     @GetMapping(path = "/api/user/{userId}/history", produces = "application/json")
     public ResponseEntity<GetHistoryResponse> gethistory(
-            @PathVariable("userId") long userId) {
+            @Schema(description = "ユーザID") @PathVariable("userId") long userId) {
         GetHistoryResponse response;
 
         try {

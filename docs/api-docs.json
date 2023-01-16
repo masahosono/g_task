@@ -24,15 +24,6 @@
         "summary": "ユーザ登録API",
         "description": "独自コインを利用するためのユーザ登録をおこなう",
         "operationId": "registerUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/jp.gr.java_conf.gtask.domain.datetime.RequestDateTime"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK",
@@ -62,15 +53,8 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "ユーザID",
               "format": "int64"
-            }
-          },
-          {
-            "name": "requestDateTime",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/jp.gr.java_conf.gtask.domain.datetime.RequestDateTime"
             }
           }
         ],
@@ -113,15 +97,8 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "ユーザID",
               "format": "int64"
-            }
-          },
-          {
-            "name": "requestDateTime",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/jp.gr.java_conf.gtask.domain.datetime.RequestDateTime"
             }
           }
         ],
@@ -149,39 +126,6 @@
         }
       }
     },
-    "/api/user/{userId}/history": {
-      "post": {
-        "tags": [
-          "独自コインAPI"
-        ],
-        "summary": "履歴API",
-        "description": "出入金の履歴を取得する",
-        "operationId": "gethistory",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.GetHistoryResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/user/{userId}/balance": {
       "get": {
         "tags": [
@@ -197,6 +141,7 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "ユーザID",
               "format": "int64"
             }
           }
@@ -228,15 +173,8 @@
             "required": true,
             "schema": {
               "type": "integer",
+              "description": "ユーザID",
               "format": "int64"
-            }
-          },
-          {
-            "name": "requestDateTime",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/jp.gr.java_conf.gtask.domain.datetime.RequestDateTime"
             }
           }
         ],
@@ -263,26 +201,52 @@
           }
         }
       }
+    },
+    "/api/user/{userId}/history": {
+      "get": {
+        "tags": [
+          "独自コインAPI"
+        ],
+        "summary": "履歴API",
+        "description": "出入金の履歴を取得する",
+        "operationId": "gethistory",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "ユーザID",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.GetHistoryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "jp.gr.java_conf.gtask.domain.datetime.RequestDateTime": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "jp.gr.java_conf.gtask.presentation.user.registeruser.response.ErrorResponse": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string"
           }
-        }
+        },
+        "description": "失敗時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.registeruser.response.RegisterUserResponse": {
         "type": "object",
@@ -300,19 +264,23 @@
         "properties": {
           "userId": {
             "type": "integer",
+            "description": "ユーザID",
             "format": "int64"
           }
-        }
+        },
+        "description": "成功時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.transfer.request.TransferRequest": {
         "type": "object",
         "properties": {
           "recipientUserId": {
             "type": "integer",
+            "description": "送金先ユーザID",
             "format": "int64"
           },
           "balance": {
             "type": "integer",
+            "description": "送金残高",
             "format": "int64"
           }
         }
@@ -323,20 +291,24 @@
           "message": {
             "type": "string"
           }
-        }
+        },
+        "description": "失敗時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.transfer.response.ResultResponse": {
         "type": "object",
         "properties": {
           "userId": {
             "type": "integer",
+            "description": "ユーザID",
             "format": "int64"
           },
           "balance": {
             "type": "integer",
+            "description": "残高",
             "format": "int64"
           }
-        }
+        },
+        "description": "成功時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.transfer.response.TransferResponse": {
         "type": "object",
@@ -354,56 +326,8 @@
         "properties": {
           "balance": {
             "type": "integer",
+            "description": "送金残高",
             "format": "int64"
-          }
-        }
-      },
-      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.GetHistoryResponse": {
-        "type": "object",
-        "properties": {
-          "result": {
-            "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.ResultResponse"
-          },
-          "error": {
-            "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.ErrorResponse"
-          }
-        }
-      },
-      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.HistoryResponse": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "type": {
-            "type": "string"
-          },
-          "balance": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "updateDate": {
-            "type": "string"
-          }
-        }
-      },
-      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.ResultResponse": {
-        "type": "object",
-        "properties": {
-          "history": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.HistoryResponse"
-            }
           }
         }
       },
@@ -412,6 +336,7 @@
         "properties": {
           "balance": {
             "type": "integer",
+            "description": "入金残高",
             "format": "int64"
           }
         }
@@ -433,20 +358,81 @@
           "message": {
             "type": "string"
           }
-        }
+        },
+        "description": "失敗時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.addbalance.response.ResultResponse": {
         "type": "object",
         "properties": {
           "userId": {
             "type": "integer",
+            "description": "ユーザID",
             "format": "int64"
           },
           "balance": {
             "type": "integer",
+            "description": "残高",
             "format": "int64"
           }
+        },
+        "description": "成功時レスポンス"
+      },
+      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "description": "失敗時レスポンス"
+      },
+      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.GetHistoryResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.ResultResponse"
+          },
+          "error": {
+            "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.ErrorResponse"
+          }
         }
+      },
+      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.HistoryResponse": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "description": "出入金額",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "出入金種別 in: 入金、out: 出金"
+          },
+          "balance": {
+            "type": "integer",
+            "description": "残高",
+            "format": "int64"
+          },
+          "updateDate": {
+            "type": "string",
+            "description": "更新日時"
+          }
+        },
+        "description": "ユーザ残高履歴"
+      },
+      "jp.gr.java_conf.gtask.presentation.user.gethistory.response.ResultResponse": {
+        "type": "object",
+        "properties": {
+          "history": {
+            "type": "array",
+            "description": "ユーザ残高履歴",
+            "items": {
+              "$ref": "#/components/schemas/jp.gr.java_conf.gtask.presentation.user.gethistory.response.HistoryResponse"
+            }
+          }
+        },
+        "description": "成功時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.getbalance.response.ErrorResponse": {
         "type": "object",
@@ -454,7 +440,8 @@
           "message": {
             "type": "string"
           }
-        }
+        },
+        "description": "失敗時レスポンス"
       },
       "jp.gr.java_conf.gtask.presentation.user.getbalance.response.GetBalanceResponse": {
         "type": "object",
@@ -472,13 +459,16 @@
         "properties": {
           "userId": {
             "type": "integer",
+            "description": "ユーザID",
             "format": "int64"
           },
           "balance": {
             "type": "integer",
+            "description": "残高",
             "format": "int64"
           }
-        }
+        },
+        "description": "成功時レスポンス"
       }
     }
   }
