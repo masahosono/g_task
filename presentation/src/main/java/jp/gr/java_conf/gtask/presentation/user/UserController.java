@@ -59,7 +59,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "独自コインAPI")
+@Tag(name = "独自コイン管理API")
 @RestController
 @Component
 @RequiredArgsConstructor
