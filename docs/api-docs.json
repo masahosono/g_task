@@ -12,14 +12,14 @@
   ],
   "tags": [
     {
-      "name": "独自コインAPI"
+      "name": "独自コイン管理API"
     }
   ],
   "paths": {
     "/api/user": {
       "post": {
         "tags": [
-          "独自コインAPI"
+          "独自コイン管理API"
         ],
         "summary": "ユーザ登録API",
         "description": "独自コインを利用するためのユーザ登録をおこなう",
@@ -41,7 +41,7 @@
     "/api/user/{userId}/transfer": {
       "post": {
         "tags": [
-          "独自コインAPI"
+          "独自コイン管理API"
         ],
         "summary": "送金API",
         "description": "他のユーザへ独自コインの送金をおこなう",
@@ -85,7 +85,7 @@
     "/api/user/{userId}/payment": {
       "post": {
         "tags": [
-          "独自コインAPI"
+          "独自コイン管理API"
         ],
         "summary": "支払いAPI",
         "description": "独自コインを使用して支払いをおこなう",
@@ -129,7 +129,7 @@
     "/api/user/{userId}/balance": {
       "get": {
         "tags": [
-          "独自コインAPI"
+          "独自コイン管理API"
         ],
         "summary": "残高取得API",
         "description": "ユーザーの残高を返却します",
@@ -161,7 +161,7 @@
       },
       "post": {
         "tags": [
-          "独自コインAPI"
+          "独自コイン管理API"
         ],
         "summary": "入金API",
         "description": "独自コインに入金をおこなう",
@@ -205,7 +205,7 @@
     "/api/user/{userId}/history": {
       "get": {
         "tags": [
-          "独自コインAPI"
+          "独自コイン管理API"
         ],
         "summary": "履歴API",
         "description": "出入金の履歴を取得する",
