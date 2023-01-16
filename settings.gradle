@@ -1,4 +1,5 @@
 rootProject.name = 'g_task'
+// NOTE: 各レイヤの依存関係を明確にするためにマルチプロジェクトを採用
 include 'presentation'
 include 'application'
 include 'domain'

@@ -40,4 +40,4 @@ $ export SPRING_DATASOURCE_PASSWORD=[password]
 ```
 
 ## API仕様
-https://masahosono.github.io/g_task/
+https://masahosono.github.io/g_task/#tag/API
